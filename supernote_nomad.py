@@ -10,6 +10,7 @@
 #
 # PPmm = PPI / 25.4, or about 11.81102362
 # Additionally, when scaled using PPmm, 1px is roughly 0.08466667mm.
+import svg
 
 SCREEN_WIDTH = 1404.0
 SCREEN_HEIGHT = 1872.0
@@ -17,15 +18,15 @@ PPI = 300.0
 MM = PPI / 25.4
 
 
-def top_bar():
+def top_bar() -> svg.Element:
     return svg.Rect(width=1404, height=99, fill="#ff00ff")
 
 
-def side_bar():
+def side_bar() -> svg.Element:
     return svg.Rect(width=99, height=1872, fill="#ff00ff")
 
 
-def border():
+def border() -> svg.Element:
     return svg.Rect(
         x=0,
         y=0,
