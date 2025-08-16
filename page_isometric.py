@@ -26,6 +26,7 @@ def generate_isometic_grid(device: Device) -> svg.SVG:
                 (grid_rows, grid_cols),
                 angle,
                 fill="#888888",
+                stroke_dasharray=[1, 1],
             ),
         ],
     )
