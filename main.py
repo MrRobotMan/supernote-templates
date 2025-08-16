@@ -43,7 +43,7 @@ def main() -> None:
         create_svg(generate_function, device, base_file)
         if args.output == "png":
             create_png(base_file)
-            base_file.with_suffix(".svg").unlink()
+            # base_file.with_suffix(".svg").unlink()
         print(f"Created {base_file}")
 
 
@@ -60,6 +60,7 @@ def create_png(base_file: Path) -> None:
         [
             "inkscape",
             str(base_file.with_suffix(".svg")),
+            "-o",
             str(base_file.with_suffix(".png")),
             "-b",
             "white",
