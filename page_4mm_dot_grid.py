@@ -14,7 +14,7 @@ def generate_4mm_dot_grid(device: Device) -> svg.SVG:
         (device.screen_height - grid_height * grid_size) / 2,
     )
 
-    canvas = svg.SVG(
+    return svg.SVG(
         width=device.screen_width,
         height=device.screen_height,
         elements=[
@@ -29,8 +29,6 @@ def generate_4mm_dot_grid(device: Device) -> svg.SVG:
             ),
         ],
     )
-
-    return canvas
 
 
 if __name__ == "__main__":

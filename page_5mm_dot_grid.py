@@ -1,35 +1,35 @@
-from textwrap import dedent
-
 import svg
 
-from supernote_nomad import MM, SCREEN_WIDTH, SCREEN_HEIGHT, border
-from utils import generate_grid, generate_dot_grid
+from devices import Device
+from utils import generate_dot_grid
 
 
-grid_size = 5.0 * MM
-grid_width = int(SCREEN_WIDTH // grid_size)
-grid_height = int(SCREEN_HEIGHT // grid_size)
+def generate_5mm_dot_grid(device: Device) -> svg.SVG:
+    grid_size = 5.0 * device.mm
+    grid_width = int(device.screen_width // grid_size)
+    grid_height = int(device.screen_height // grid_size)
 
-top_corner = (
-    (SCREEN_WIDTH - grid_width * grid_size) / 2,
-    (SCREEN_HEIGHT - grid_height * grid_size) / 2,
-)
+    top_corner = (
+        (device.screen_width - grid_width * grid_size) / 2,
+        (device.screen_height - grid_height * grid_size) / 2,
+    )
+
+    return svg.SVG(
+        width=device.screen_width,
+        height=device.screen_height,
+        elements=[
+            # border(),
+            generate_dot_grid(
+                top_corner[0],
+                top_corner[1],
+                grid_size,
+                grid_width,
+                grid_height,
+                fill="#888888",
+            ),
+        ],
+    )
 
 
-canvas = svg.SVG(
-    width=SCREEN_WIDTH,
-    height=SCREEN_HEIGHT,
-    elements=[
-        # border(),
-        generate_dot_grid(
-            top_corner[0],
-            top_corner[1],
-            grid_size,
-            grid_width,
-            grid_height,
-            fill="#888888",
-        ),
-    ],
-)
-
-print(canvas)
+if __name__ == "__main__":
+    print(generate_5mm_dot_grid(Device.Nomad))
