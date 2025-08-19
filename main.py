@@ -6,16 +6,19 @@ from pathlib import Path
 import svg
 
 import page_4mm_dot_grid
+import page_5mm_dot_grid
+import page_daily_planner
+import page_dayfree
 import page_isometric
 from devices import Device
 
-# import page_5mm_dot_grid
-# import page_daily_planner
-# import page_dayfree
 
 PAGES = {
     "page_4mm_dot_grid": page_4mm_dot_grid.generate_4mm_dot_grid,
     "page_isometric": page_isometric.generate_isometic_grid,
+    "page_5mm_dot_grid": page_5mm_dot_grid.generate_5mm_dot_grid,
+    "page_daily_planner": page_daily_planner.generate_daily_planner,
+    "page_dayfree": page_dayfree.generate_dayfree,
 }
 
 
@@ -32,7 +35,7 @@ def main() -> None:
         help="Device to generate the template for.",
     )
     parser.add_argument(
-        "--output", "-o", choices=["svg", "png"], default="svg", help="Output file type"
+        "--output", "-o", choices=["svg", "png", "both"], help="Output file type"
     )
     args = parser.parse_args()
     templates = get_templates(args.template)
@@ -41,10 +44,19 @@ def main() -> None:
         generate_function = PAGES[template]
         base_file = Path("out") / f"{template}_{device}"
         create_svg(generate_function, device, base_file)
-        if args.output == "png":
-            create_png(base_file)
-            # base_file.with_suffix(".svg").unlink()
-        print(f"Created {base_file}")
+        ext = "svg"
+        if args.output in ("png", "both"):
+            try:
+                create_png(base_file)
+            except FileNotFoundError:
+                print("Could not create png, inkscape is not in the PATH.")
+            else:
+                if args.output == "png":
+                    base_file.with_suffix(".svg").unlink()
+                    ext = "png"
+                else:
+                    ext = "svg & png"
+        print(f"Created {base_file} {ext}")
 
 
 def create_svg(
