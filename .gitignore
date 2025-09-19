@@ -2,4 +2,5 @@
 *.png
 .venv
 .direnv
+.ruff.toml
 __pycache__

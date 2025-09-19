@@ -1,17 +1,16 @@
 import argparse
-import subprocess
 from collections.abc import Callable
 from pathlib import Path
+import subprocess
 
 import svg
 
+from devices import Device
 import page_4mm_dot_grid
 import page_5mm_dot_grid
 import page_daily_planner
 import page_dayfree
 import page_isometric
-from devices import Device
-
 
 PAGES = {
     "page_4mm_dot_grid": page_4mm_dot_grid.generate_4mm_dot_grid,
@@ -34,9 +33,7 @@ def main() -> None:
         type=Device,
         help="Device to generate the template for.",
     )
-    parser.add_argument(
-        "--output", "-o", choices=["svg", "png", "both"], help="Output file type"
-    )
+    parser.add_argument("--output", "-o", choices=["svg", "png", "both"], help="Output file type")
     args = parser.parse_args()
     templates = get_templates(args.template)
     device = args.device
@@ -45,7 +42,7 @@ def main() -> None:
         base_file = Path("out") / f"{template}_{device}"
         create_svg(generate_function, device, base_file)
         ext = "svg"
-        if args.output in ("png", "both"):
+        if args.output in {"png", "both"}:
             try:
                 create_png(base_file)
             except FileNotFoundError:
@@ -59,9 +56,7 @@ def main() -> None:
         print(f"Created {base_file} {ext}")
 
 
-def create_svg(
-    func: Callable[[Device], svg.SVG], device: Device, base_file: Path
-) -> None:
+def create_svg(func: Callable[[Device], svg.SVG], device: Device, base_file: Path) -> None:
     contents = func(device)
     with base_file.with_suffix(".svg").open("w") as f:
         f.write(str(contents))
@@ -77,7 +72,8 @@ def create_png(base_file: Path) -> None:
             "-b",
             "white",
             "--export-png-color-mode=Gray_16",
-        ]
+        ],
+        check=True,
     )
 
 
