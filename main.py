@@ -1,5 +1,6 @@
 import argparse
 from collections.abc import Callable
+from functools import partial
 from pathlib import Path
 import subprocess
 
@@ -11,6 +12,9 @@ import page_5mm_dot_grid
 import page_daily_planner
 import page_dayfree
 import page_isometric
+import page_ruled_line
+
+
 
 PAGES = {
     "page_4mm_dot_grid": page_4mm_dot_grid.generate_4mm_dot_grid,
@@ -18,6 +22,7 @@ PAGES = {
     "page_5mm_dot_grid": page_5mm_dot_grid.generate_5mm_dot_grid,
     "page_daily_planner": page_daily_planner.generate_daily_planner,
     "page_dayfree": page_dayfree.generate_dayfree,
+    "page_6mm_ruled_line": partial(page_ruled_line.generate_ruled_line, spacing=6)
 }
 
 
@@ -78,7 +83,7 @@ def create_png(base_file: Path) -> None:
 
 
 def get_templates(template: str) -> list[str]:
-    templates = [p.stem for p in Path().iterdir() if p.stem.startswith("page_")]
+    templates = list(PAGES.keys())
     if template.lower() == "all":
         return templates
     if not template.startswith("page"):
