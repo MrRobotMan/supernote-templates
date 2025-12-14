@@ -14,15 +14,13 @@ import page_dayfree
 import page_isometric
 import page_ruled_line
 
-
-
 PAGES = {
     "page_4mm_dot_grid": page_4mm_dot_grid.generate_4mm_dot_grid,
     "page_isometric": page_isometric.generate_isometic_grid,
     "page_5mm_dot_grid": page_5mm_dot_grid.generate_5mm_dot_grid,
     "page_daily_planner": page_daily_planner.generate_daily_planner,
     "page_dayfree": page_dayfree.generate_dayfree,
-    "page_6mm_ruled_line": partial(page_ruled_line.generate_ruled_line, spacing=6)
+    "page_6mm_ruled_line": partial(page_ruled_line.generate_ruled_line, spacing=6),
 }
 
 
